@@ -1,0 +1,22 @@
+{
+  "name": "saka-actions",
+  "version": "0.1.0",
+  "description": "A library for common browser manipulation tasks",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lusakasa/saka-actions.git"
+  },
+  "author": "",
+  "license": "GNU AFFERO GENERAL PUBLIC LICENSE",
+  "bugs": {
+    "url": "https://github.com/lusakasa/saka-actions/issues"
+  },
+  "homepage": "https://github.com/lusakasa/saka-actions"
+}
