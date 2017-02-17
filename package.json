@@ -2,7 +2,6 @@
   "name": "saka-actions",
   "version": "0.1.0",
   "description": "A library for common browser manipulation tasks",
-  "main": "index.js",
   "directories": {
     "doc": "doc"
   },
@@ -14,9 +13,16 @@
     "url": "git+https://github.com/lusakasa/saka-actions.git"
   },
   "author": "",
-  "license": "GNU AFFERO GENERAL PUBLIC LICENSE",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/lusakasa/saka-actions/issues"
   },
-  "homepage": "https://github.com/lusakasa/saka-actions"
+  "homepage": "https://github.com/lusakasa/saka-actions",
+  "dependencies": {
+    "smoothscroll-polyfill": "^0.3.4",
+    "webpack": "^2.2.1"
+  },
+  "devDependencies": {
+    "@types/chrome": "0.0.40"
+  }
 }
