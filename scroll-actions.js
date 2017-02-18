@@ -1,7 +1,3 @@
-/**
- * Scrolling Functions
- */
-
 require('smoothscroll-polyfill').polyfill();
 
 /* scroll step size in pixels */

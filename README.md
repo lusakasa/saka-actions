@@ -1,3 +1,7 @@
 # saka-actions
 
-Consider separating Page and Browser tasks
+The library for executing browser actions that powers Saka and SakaVim.
+
+Permissions Required:
+
+* "sessions" - required to restore last closed tab

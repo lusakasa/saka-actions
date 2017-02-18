@@ -1,1 +1,1 @@
-export * from './tab-actions';
+export * from './scroll-actions';
