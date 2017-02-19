@@ -1,74 +1,76 @@
+/* global chrome */
+
 /** Activate the tab to the right of the active tab of the current window */
-export function nextTab() {
+export function nextTab () {
   chrome.tabs.query({ currentWindow: true }, (tabs) => {
-    const activeTabIndex = tabs.findIndex(tab => tab.active);
+    const activeTabIndex = tabs.findIndex((tab) => tab.active);
     const nextTabId = tabs[(activeTabIndex + 1) % tabs.length].id;
-    chrome.tabs.update(nextTabId, {  active: true });
+    chrome.tabs.update(nextTabId, { active: true });
   });
 }
 
 /** Activate the tab to the left of the active tab of the current window */
-export function previousTab() {
+export function previousTab () {
   chrome.tabs.query({ currentWindow: true }, (tabs) => {
-    const activeTabIndex = tabs.findIndex(tab => tab.active);
+    const activeTabIndex = tabs.findIndex((tab) => tab.active);
     const previousTabId = tabs[(activeTabIndex - 1) % tabs.length].id;
-    chrome.tabs.update(previousTabId, {  active: true });
+    chrome.tabs.update(previousTabId, { active: true });
   });
 }
 
 /** Activate the first tab of the current window */
-export function firstTab() {
+export function firstTab () {
   chrome.tabs.query({ currentWindow: true }, (tabs) => {
     const firstTabId = tabs[0].id;
-    chrome.tabs.update(firstTabId, {  active: true });
+    chrome.tabs.update(firstTabId, { active: true });
   });
 }
 
 /** Activate the last tab of the current window */
-export function lastTab() {
+export function lastTab () {
   chrome.tabs.query({ currentWindow: true }, (tabs) => {
     const lastTabId = tabs[tabs.length - 1].id;
-    chrome.tabs.update(lastTabId, {  active: true });
+    chrome.tabs.update(lastTabId, { active: true });
   });
 }
 
 /** Move the active tab of the current window left */
-export function moveTabLeft() {
+export function moveTabLeft () {
   chrome.tabs.query({ currentWindow: true, active: true }, ([tab]) => {
     chrome.tabs.move(tab.id, { index: tab.index + 1 });
   });
 }
 
 /** Move the active tab of the current window right */
-export function moveTabRight() {
+export function moveTabRight () {
   chrome.tabs.query({ currentWindow: true, active: true }, ([tab]) => {
     chrome.tabs.move(tab.id, { index: tab.index + 1 });
   });
 }
 
 /** Move the active tab of the current window to the far left */
-export function moveTabFirst() {
+export function moveTabFirst () {
   chrome.tabs.query({ currentWindow: true, active: true }, ([tab]) => {
     chrome.tabs.move(tab.id, { index: 0 });
   });
 }
 
 /** Move the active tab of the current window to the far right */
-export function moveTabLast() {
+export function moveTabLast () {
   chrome.tabs.query({ currentWindow: true, active: true }, ([tab]) => {
     chrome.tabs.move(tab.id, { index: -1 });
   });
 }
 
 /** Close the active tab of the current window */
-export function closeTab() {
+export function closeTab () {
   chrome.tabs.query({ currentWindow: true, active: true }, ([tab]) => {
     chrome.tabs.remove(tab.id);
   });
 }
 
 /** Close all tabs of the current window except the active tab */
-export function closeOtherTabs() {
+export function closeOtherTabs () {
   chrome.tabs.query({ currentWindow: true }, (tabs) => {
     tabs.forEach((tab) => {
       if (!tab.active) chrome.tabs.remove(tab.id);
@@ -77,7 +79,7 @@ export function closeOtherTabs() {
 }
 
 /** Close all tabs to the right of the active tab of the current window */
-export function closeRightTabs() {
+export function closeRightTabs () {
   chrome.tabs.query({ currentWindow: true }, (tabs) => {
     const activeTabIndex = tabs.findIndex((tab) => tab.active);
     tabs.slice(activeTabIndex + 1).forEach((tab) => {
@@ -87,7 +89,7 @@ export function closeRightTabs() {
 }
 
 /** Close all tabs to the left of the active tab of the current window */
-export function closeLeftTabs() {
+export function closeLeftTabs () {
   chrome.tabs.query({ currentWindow: true }, (tabs) => {
     const activeTabIndex = tabs.findIndex((tab) => tab.active);
     tabs.slice(0, activeTabIndex).forEach((tab) => {
@@ -97,36 +99,36 @@ export function closeLeftTabs() {
 }
 
 /** Create and activate a new tab */
-export function newTab() {
+export function newTab () {
   chrome.tabs.create({});
 }
 
 /** Reopen and activate the last closed tab */
-export function restoreTab() {
+export function restoreTab () {
   chrome.sessions.restore();
 }
 
 /** Duplicate and activate the active tab of the current window */
-export function duplicateTab() {
+export function duplicateTab () {
   chrome.tabs.query({ currentWindow: true, active: true }, ([tab]) => {
     chrome.tabs.duplicate(tab.id);
   });
 }
 
 /** Creates a new window */
-export function newWindow() {
+export function newWindow () {
   // TODO: Implement
   console.errot('newWindow not implemented');
 }
 
 /** Switches to the next window */
-export function switchWindow() {
+export function switchWindow () {
   // TODO: Implement
   console.errot('switchWindow not implemented');
 }
 
 /** Zoom in the active tab of the current window */
-export function zoomIn() {
+export function zoomIn () {
   chrome.tabs.query({ currentWindow: true, active: true}, ([tab]) => {
     chrome.tabs.getZoom((zoomFactor) => {
       chrome.tabs.setZoom(tab.id, Math.max(zoomFactor + 0.3, 3.0));
@@ -135,8 +137,8 @@ export function zoomIn() {
 }
 
 /** Zoom out the active tab of the current window */
-export function zoomOut() {
-  chrome.tabs.query({ currentWindow: true, active: true}, ([tab]) => {
+export function zoomOut () {
+  chrome.tabs.query({ currentWindow: true, active: true }, ([tab]) => {
     chrome.tabs.getZoom((zoomFactor) => {
       chrome.tabs.setZoom(tab.id, Math.max(zoomFactor - 0.3, 0.3));
     });
@@ -144,7 +146,7 @@ export function zoomOut() {
 }
 
 /** Reset the zoom of the active tab of the current window */
-export function zoomReset() {
+export function zoomReset () {
   chrome.tabs.query({ currentWindow: true, active: true}, ([tab]) => {
     chrome.tabs.getZoom((zoomFactor) => {
       chrome.tabs.setZoom(tab.id, 0);
@@ -153,14 +155,14 @@ export function zoomReset() {
 }
 
 /** Refresh the active tab of the current window */
-export function refreshTab() {
-  chrome.tabs.query({ currentWindow: true, active: true}, ([tab]) => {
+export function refreshTab () {
+  chrome.tabs.query({ currentWindow: true, active: true }, ([tab]) => {
     chrome.tabs.reload(tab.id);
   }); 
 }
 
 /** Refresh all tabs of the current window */
-export function refreshAllTabs() {
+export function refreshAllTabs () {
   chrome.tabs.query({ currentWindow: true }, (tabs) => {
     tabs.forEach((tab) => {
       chrome.tabs.reload(tab.id);
@@ -169,14 +171,14 @@ export function refreshAllTabs() {
 }
 
 /** Toggle the mute state of the active tab of the current window */
-export function toggleMuteTab() {
-  chrome.tabs.query({ currentWindow: true, active: true}, ([tab]) => {
+export function toggleMuteTab () {
+  chrome.tabs.query({ currentWindow: true, active: true }, ([tab]) => {
     chrome.tabs.update(tab.id, { muted: !tab.mutedInfo.muted });
   }); 
 }
 
 /** Mute all tabs of all windows */
-export function muteAllTabs() {
+export function muteAllTabs () {
   chrome.tabs.query({}, (tabs) => {
     tabs.forEach((tab) => {
       chrome.tabs.update(tab.id, { muted: true });
@@ -185,18 +187,17 @@ export function muteAllTabs() {
 }
 
 /** Unmute all tabs of all windows */
-export function unmuteAllTabs() {
+export function unmuteAllTabs () {
   chrome.tabs.query({}, (tabs) => {
     tabs.forEach((tab) => {
       chrome.tabs.update(tab.id, { muted: false });
     });
-  }); 
-
+  });
 }
 
 /** Toggle the pin state of the active tab of the current window */
-export function togglePinTab() {
-  chrome.tabs.query({ currentWindow: true, active: true}, ([tab]) => {
+export function togglePinTab () {
+  chrome.tabs.query({ currentWindow: true, active: true }, ([tab]) => {
     chrome.tabs.update(tab.id, { pinned: !tab.pinned });
-  }); 
+  });
 }
