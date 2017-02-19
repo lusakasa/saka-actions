@@ -1,8 +1,9 @@
-require('smoothscroll-polyfill').polyfill ();
+require('smoothscroll-polyfill').polyfill();
 
 /* scroll step size in pixels */
 let step = 60;
 
+/** Scroll down page by a single step */
 export function scrollDown () {
   window.scrollBy({
     top: step,
@@ -10,6 +11,7 @@ export function scrollDown () {
   });
 }
 
+/** Scroll up page by a single step */
 export function scrollUp () {
   window.scrollBy({
     top: -step,
@@ -17,6 +19,7 @@ export function scrollUp () {
   });
 }
 
+/** Scroll left page by a single step */
 export function scrollLeft () {
   window.scrollBy({
     left: -step,
@@ -24,6 +27,7 @@ export function scrollLeft () {
   });
 }
 
+/** Scroll right page by a single step */
 export function scrollRight () {
   window.scrollBy({
     left: step,
@@ -33,6 +37,7 @@ export function scrollRight () {
 
 // TODO: figure out why document.documentElement.clientHeight
 // is buggy on hackernews, i wouldd use it over window.innerHeight otherwise
+/** Scroll down one page */
 export function scrollPageDown () {
   window.scrollBy({
     top: window.innerHeight * 0.9,
@@ -40,6 +45,7 @@ export function scrollPageDown () {
   });
 }
 
+/** Scroll up one page */
 export function scrollPageUp () {
   window.scrollBy({
     top: -window.innerHeight * 0.9,
@@ -47,6 +53,7 @@ export function scrollPageUp () {
   });
 }
 
+/** Scroll down half a page */
 export function scrollHalfPageDown () {
   window.scrollBy({
     top: window.innerHeight / 2,
@@ -54,6 +61,7 @@ export function scrollHalfPageDown () {
   });
 }
 
+/** Scroll up half a page */
 export function scrollHalfPageUp () {
   window.scrollBy({
     top: -window.innerHeight / 2,
@@ -61,6 +69,7 @@ export function scrollHalfPageUp () {
   });
 }
 
+/** Scroll to bottom of page */
 export function scrollToBottom () {
   window.scrollTo({
     top: window.document.documentElement.scrollHeight,
@@ -68,6 +77,7 @@ export function scrollToBottom () {
   });
 }
 
+/** Scroll to top page */
 export function scrollToTop () {
   window.scrollTo({
     top: 0,
@@ -75,6 +85,7 @@ export function scrollToTop () {
   });
 }
 
+/** Scroll to far left of page */
 export function scrollToLeft () {
   window.scrollTo({
     left: 0,
@@ -82,6 +93,7 @@ export function scrollToLeft () {
   });
 }
 
+/** Scroll to far right of page */
 export function scrollToRight () {
   window.scrollTo({
     left: window.document.documentElement.scrollWidth,
