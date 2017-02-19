@@ -1,10 +1,15 @@
 /* global chrome */
 
+let zoomStep = 10; // for 10%
+
+// Returns the _positive_ modulus
+const mod = (n, m) => ((n % m) + m) % m;
+
 /** Activate the tab to the right of the active tab of the current window */
 export function nextTab () {
   chrome.tabs.query({ currentWindow: true }, (tabs) => {
     const activeTabIndex = tabs.findIndex((tab) => tab.active);
-    const nextTabId = tabs[(activeTabIndex + 1) % tabs.length].id;
+    const nextTabId = tabs[mod(activeTabIndex + 1, tabs.length)].id;
     chrome.tabs.update(nextTabId, { active: true });
   });
 }
@@ -13,7 +18,7 @@ export function nextTab () {
 export function previousTab () {
   chrome.tabs.query({ currentWindow: true }, (tabs) => {
     const activeTabIndex = tabs.findIndex((tab) => tab.active);
-    const previousTabId = tabs[(activeTabIndex - 1) % tabs.length].id;
+    const previousTabId = tabs[mod(activeTabIndex - 1, tabs.length)].id;
     chrome.tabs.update(previousTabId, { active: true });
   });
 }
@@ -37,14 +42,16 @@ export function lastTab () {
 /** Move the active tab of the current window left */
 export function moveTabLeft () {
   chrome.tabs.query({ currentWindow: true, active: true }, ([tab]) => {
-    chrome.tabs.move(tab.id, { index: tab.index + 1 });
+    chrome.tabs.move(tab.id, { index: tab.index - 1 });
   });
 }
 
 /** Move the active tab of the current window right */
 export function moveTabRight () {
-  chrome.tabs.query({ currentWindow: true, active: true }, ([tab]) => {
-    chrome.tabs.move(tab.id, { index: tab.index + 1 });
+  chrome.tabs.query({ currentWindow: true }, (tabs) => {
+    const activeTabIndex = tabs.findIndex((tab) => tab.active);
+    const nextTabIndex = mod(activeTabIndex + 1, tabs.length);
+    chrome.tabs.move(tabs[activeTabIndex].id, { index: nextTabIndex });
   });
 }
 
@@ -115,13 +122,13 @@ export function duplicateTab () {
   });
 }
 
-/** Creates a new window */
+/** Create a new window */
 export function newWindow () {
   // TODO: Implement
   console.errot('newWindow not implemented');
 }
 
-/** Switches to the next window */
+/** Activate the next window */
 export function switchWindow () {
   // TODO: Implement
   console.errot('switchWindow not implemented');
@@ -129,9 +136,9 @@ export function switchWindow () {
 
 /** Zoom in the active tab of the current window */
 export function zoomIn () {
-  chrome.tabs.query({ currentWindow: true, active: true}, ([tab]) => {
+  chrome.tabs.query({ currentWindow: true, active: true }, ([tab]) => {
     chrome.tabs.getZoom((zoomFactor) => {
-      chrome.tabs.setZoom(tab.id, Math.max(zoomFactor + 0.3, 3.0));
+      chrome.tabs.setZoom(tab.id, Math.min(zoomFactor + zoomStep / 100, 3.0));
     });
   });
 }
@@ -140,18 +147,18 @@ export function zoomIn () {
 export function zoomOut () {
   chrome.tabs.query({ currentWindow: true, active: true }, ([tab]) => {
     chrome.tabs.getZoom((zoomFactor) => {
-      chrome.tabs.setZoom(tab.id, Math.max(zoomFactor - 0.3, 0.3));
+      chrome.tabs.setZoom(tab.id, Math.max(zoomFactor - zoomStep / 100, 0.3));
     });
-  }); 
+  });
 }
 
 /** Reset the zoom of the active tab of the current window */
 export function zoomReset () {
-  chrome.tabs.query({ currentWindow: true, active: true}, ([tab]) => {
+  chrome.tabs.query({ currentWindow: true, active: true }, ([tab]) => {
     chrome.tabs.getZoom((zoomFactor) => {
       chrome.tabs.setZoom(tab.id, 0);
     });
-  }); 
+  });
 }
 
 /** Refresh the active tab of the current window */
@@ -167,14 +174,14 @@ export function refreshAllTabs () {
     tabs.forEach((tab) => {
       chrome.tabs.reload(tab.id);
     });
-  }); 
+  });
 }
 
 /** Toggle the mute state of the active tab of the current window */
 export function toggleMuteTab () {
   chrome.tabs.query({ currentWindow: true, active: true }, ([tab]) => {
     chrome.tabs.update(tab.id, { muted: !tab.mutedInfo.muted });
-  }); 
+  });
 }
 
 /** Mute all tabs of all windows */
@@ -183,7 +190,7 @@ export function muteAllTabs () {
     tabs.forEach((tab) => {
       chrome.tabs.update(tab.id, { muted: true });
     });
-  }); 
+  });
 }
 
 /** Unmute all tabs of all windows */
