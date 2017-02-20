@@ -184,23 +184,18 @@ export function toggleMuteTab () {
   });
 }
 
+let muted = false;
+
 /** Mute all tabs of all windows */
-export function muteAllTabs () {
+export function toggleMuteAllTabs () {
+  muted != muted;
   chrome.tabs.query({}, (tabs) => {
     tabs.forEach((tab) => {
-      chrome.tabs.update(tab.id, { muted: true });
+      chrome.tabs.update(tab.id, { muted });
     });
   });
 }
 
-/** Unmute all tabs of all windows */
-export function unmuteAllTabs () {
-  chrome.tabs.query({}, (tabs) => {
-    tabs.forEach((tab) => {
-      chrome.tabs.update(tab.id, { muted: false });
-    });
-  });
-}
 
 /** Toggle the pin state of the active tab of the current window */
 export function togglePinTab () {
