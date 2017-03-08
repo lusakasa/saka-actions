@@ -1,13 +1,13 @@
-# saka-actions
+# Saka Commands
 
-The library for executing browser actions that powers Saka and SakaVim.
+A library of common browser commands. Powers Saka extensions.
 
-Permissions Required:
+# Extension Manifest Permissions:
 
 * "sessions" - required to restore last closed tab
 
 # Credits
 
-Sufyan Dawoodjee with sections from
+MIT Licensed, Copyright (c) 2017 Sufyan Dawoodjee with sections adapted from
 
-* Vimium
+* [Vimium](https://github.com/philc/vimium)
