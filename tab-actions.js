@@ -1,4 +1,3 @@
-/* global chrome */
 
 let zoomStep = 10; // for 10%
 

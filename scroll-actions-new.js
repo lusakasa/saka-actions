@@ -1,38 +1,73 @@
-require('smoothscroll-polyfill').polyfill();
 
-/* scroll step size in pixels */
-let step = 200;
+/**
+ * pass event.repeat as parameter repeat to avoid clunky animations
+ */
+class Scroller {
+  /**
+   * Creates a Scroller using 60 as the default monitor refresh rate,
+   * then upgrades the refresh rate upon fetching the actual rate.
+   */
+  constructor (pixelsPerSecond = 300, duration = 100) {
+    this.duration = duration;
+    this.lastAnimationFrame = undefined;
+    this.framesPerSecond = 60;
+    this.configureSmoothScroll(pixelsPerSecond);
+    getFramesPerSecond.then((framesPerSecond) => {
+      this.framesPerSecond = framesPerSecond;
+      this.configureSmoothScroll(pixelsPerSecond);
+    });
+  }
+  configureSmoothScroll (pixelsPerSecond) {
+    this.pixelsPerSecond = pixelsPerSecond;
+    this.pixelsPerFrame = pixelsPerSecond / this.framesPerSecond;
+  }
+  /**
+   * Calculates the display's refresh rate by measuring the time between
+   * two consecutive frames.
+   */
+  getFramesPerSecond () {
+    return new Promise((resolve, reject) => {
+      requestAnimationFrame((timeFrame1) => {
+        requestAnimationFrame((timeFrame2) => {
+          resolve(1000 / (timeFrame2 - timeFrame1));
+        });
+      });
+    });
+  }
+  /**
+   * Scrolls the selected element by the configured PPS
+   */
+  smoothScroll (element) {
+    cancelAnimationFrame(this.lastAnimationFrame);
+    let startTime;
+    const doScroll = (curTime) => {
+      startTime = startTime || curTime;
+      element.scrollTop += this.pixelsPerFrame;
+      this.lastAnimationFrame = requestAnimationFrame(doScroll);
+    };
+    requestAnimationFrame(doScroll);
+  };
+}
+
 
 /** Scroll down page by a single step */
 export function scrollDown () {
-  window.scrollBy({
-    top: step,
-    behavior: 'smooth'
-  });
+  document.scrollingElement;
 }
 
 /** Scroll up page by a single step */
 export function scrollUp () {
-  window.scrollBy({
-    top: -step,
-    behavior: 'smooth'
-  });
+
 }
 
 /** Scroll left page by a single step */
 export function scrollLeft () {
-  window.scrollBy({
-    left: -step,
-    behavior: 'smooth'
-  });
+
 }
 
 /** Scroll right page by a single step */
 export function scrollRight () {
-  window.scrollBy({
-    left: step,
-    behavior: 'smooth'
-  });
+
 }
 
 // TODO: figure out why document.documentElement.clientHeight
