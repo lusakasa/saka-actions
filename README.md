@@ -1,6 +1,6 @@
 # Saka Commands
 
-A library of common browser commands. Powers Saka extensions.
+A library of common browser commands for use by Chrome Extensions. Powers Saka extensions.
 
 # Extension Manifest Permissions:
 
